@@ -1,0 +1,45 @@
+---
+- name: "Install maven and git"
+  hosts: localhost
+  tasks:
+    - name: Install Maven using Ansible
+      become: yes
+      dnf:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+           - maven
+           - git
+- name: "Deploy a JBoss EAP"
+  hosts: localhost
+  vars:
+    eap_apply_cp: true
+    eap_version: 7.4.0
+    eap_offline_install: false
+    eap_config_base: 'standalone-full.xml'
+  collections:
+    - redhat.eap
+  roles:
+    - eap_install
+    - eap_systemd
+- name: "Clone and Build code"
+  hosts: localhost
+  tasks:
+   - name: Clone a github repository
+     git:
+       repo: https://github.com/upadhyayniti/jboss-eap-quickstarts
+       dest: /root/repos/
+       clone: yes
+       update: yes
+   - name: Go to the folder and execute command
+     command: chdir=/root/repos/helloworld mvn clean package 
+   - name: Wait for build to complete
+     ansible.builtin.wait_for:
+       path: /root/repos/helloworld/target/helloworld.war
+   - name: Deploy a hello world application to the default deploy_path
+     community.general.jboss:
+       src: /root/repos/helloworld/target/helloworld.war
+       deployment: helloworld.war
+       deploy_path: /opt/jboss_eap/jboss-eap-7.4/standalone/deployments/
+       state: present
