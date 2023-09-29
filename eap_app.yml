@@ -11,7 +11,7 @@
         packages:
            - maven
            - git
-- name: "Deploy a JBoss EAP"
+- name: "Deploy a JBoss EAP Server"
   hosts: localhost
   vars:
     eap_apply_cp: true
@@ -23,7 +23,7 @@
   roles:
     - eap_install
     - eap_systemd
-- name: "Clone and Build code"
+- name: "Clone, Build, and Deploy App"
   hosts: localhost
   tasks:
    - name: Clone a github repository
