@@ -33,9 +33,9 @@ rhn_password: <Service Account Secret>
 Run playbook
 
 ```
-ansible-playbook -e @creds.yml eap_app.yml -e eap_enable=true 
+ansible-playbook -e @creds.yml eap_app.yml -e eap_enable=true -b
 
-# ansible-playbook -e @creds.yml eap_app.yml -e eap_enable=true -vvv (if you need verbose output)
+# ansible-playbook -e @creds.yml eap_app.yml -e eap_enable=true -b -vvv (if you need verbose output)
 ```
 
 Test to confirm EAP Server is running

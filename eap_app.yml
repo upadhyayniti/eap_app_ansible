@@ -29,17 +29,17 @@
    - name: Clone a github repository
      git:
        repo: https://github.com/upadhyayniti/jboss-eap-quickstarts
-       dest: /root/repos/
+       dest: ~/repos/
        clone: yes
        update: yes
-   - name: Go to the folder and execute command
-     command: chdir=/root/repos/helloworld mvn clean package 
+   - name: Build app
+     command: chdir=~/repos/helloworld mvn clean package 
    - name: Wait for build to complete
      ansible.builtin.wait_for:
-       path: /root/repos/helloworld/target/helloworld.war
+       path: ~/repos/helloworld/target/helloworld.war
    - name: Deploy a hello world application to the default deploy_path
      community.general.jboss:
-       src: /root/repos/helloworld/target/helloworld.war
+       src: ~/repos/helloworld/target/helloworld.war
        deployment: helloworld.war
        deploy_path: /opt/jboss_eap/jboss-eap-7.4/standalone/deployments/
        state: present
