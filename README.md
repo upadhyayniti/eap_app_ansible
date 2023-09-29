@@ -6,15 +6,15 @@ Install ansible-core if not installed already
 dnf install ansible-core
 ```
 
+Get offline token from [automation hub](https://console.redhat.com/ansible/automation-hub/token)
+
+Update ansible.cfg with acquired token
+
 Install Ansible Collections 
 
 ```
 ansible-galaxy collection install -r ./requirements.yml
 ```
-
-Get offline token from [automation hub](https://console.redhat.com/ansible/automation-hub/token)
-
-Update ansible.cfg with acquired token
 
 Create service account from [Red Hat Console](https://console.redhat.com/application-services/service-accounts)
 
